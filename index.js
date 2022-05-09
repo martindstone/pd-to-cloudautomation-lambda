@@ -4,11 +4,11 @@ exports.handler = async (event) => {
   if (event.requestContext.http.method != 'POST') {
     return { statusCode: 200, body: 'ok' };
   }
-  let cahost, catoken, incidentID, token;
+  let keptnBaseUrl, keptnApiToken, incidentID, pdApiAccessKey;
   try {
-    cahost = process.env.cahost;
-    catoken = process.env.catoken;
-    token = process.env.token;
+    keptnBaseUrl = process.env.KEPTN_BASE_URL;
+    keptnApiToken = process.env.KEPTN_API_TOKEN;
+    pdApiAccessKey = process.env.PD_API_ACCESS_KEY;
     const body = JSON.parse(event.body);
     incidentID = body.__pd_metadata.incident.id;
   } catch (e) {
@@ -17,7 +17,7 @@ exports.handler = async (event) => {
 
   const url = `https://api.pagerduty.com/incidents/${incidentID}/alerts`;
   const headers = {
-    'Authorization': `Token token=${token}`,
+    'Authorization': `Token token=${pdApiAccessKey}`,
     'Accept': 'application/vnd.pagerduty+json;version=2',
   };
   const config = {
@@ -74,12 +74,12 @@ exports.handler = async (event) => {
 
   try {
     r = await axios.request({
-      url: `https://${cahost}/api/v1/event`,
+      url: `https://${keptnBaseUrl}/api/v1/event`,
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'x-token': catoken,
+        'x-token': keptnApiToken,
       },
       data: JSON.stringify(caBody),
     });  
