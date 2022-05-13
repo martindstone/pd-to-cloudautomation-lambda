@@ -2,9 +2,11 @@
 
 Integrating Dynatrace Cloud Automation with PagerDuty can enable you to mobilize responders whenever important problems occur in Dynatrace, while coordinating other actions in Cloud Automation.
 
-This translator Lambda Function will receive PagerDuty events from the PagerDuty event rule set and translate and make the Cloud Automation API call to send back a Cloud Automation sequence task finished event.
+This translator function will receive PagerDuty events from the PagerDuty event rule set and translate and make the Cloud Automation API call to send back a Cloud Automation sequence task finished event.
 
-# Install
+<img src="images/workflow.png" width="100%">
+
+# Install translator function as Lambda function
 
 1 . Create a Lambda in AWS
 
@@ -46,7 +48,7 @@ Click on Save to save your environment variables.
 - Install the dependencies - `npm install`
 - zip up the contents of this directory (example on Mac: `zip -r myzip.zip *`)
 
-# Testing the Lambda function
+# Testing the translator function
 
 You can directly call the Lambda function as shown below. Just update the AWS and PagerDuty incident IDs from your environment.
 
@@ -66,7 +68,7 @@ curl -X POST "$PD_URL" \
 '
 ```
 
-# Testing the PageDuty event
+# Testing the PageDuty incoming event API and custom event rule
 
 You can directly call the PagerDuty event webhook with some hardcoded test values. Just update the PagerDuty URL and Dynatrace details from your environment.  Add debugging statements in the Lambda function as required.
 
